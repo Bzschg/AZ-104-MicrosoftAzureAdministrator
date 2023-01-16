@@ -1,7 +1,7 @@
 ---
 lab:
     title: '09a - Implement Web Apps'
-    module: 'Module 09 - Serverless Computing'
+    module: 'Administer Serverless Computing'
 ---
 
 # Lab 09a - Implement Web Apps
@@ -10,6 +10,8 @@ lab:
 ## Lab scenario
 
 You need to evaluate the use of Azure Web apps for hosting Contoso's web sites, hosted currently in the company's on-premises data centers. The web sites are running on Windows servers using PHP runtime stack. You also need to determine how you can implement DevOps practices by leveraging Azure web apps deployment slots.
+
+**Note:** An **[interactive lab simulation](https://mslabs.cloudguides.com/guides/AZ-104%20Exam%20Guide%20-%20Microsoft%20Azure%20Administrator%20Exercise%2013)** is available that allows you to click through this lab at your own pace. You may find slight differences between the interactive simulation and the hosted lab, but the core concepts and ideas being demonstrated are the same. 
 
 ## Objectives
 
@@ -40,7 +42,7 @@ In this task, you will create an Azure web app.
 
 1. In the Azure portal, search for and select **App services**, and, on the **App Services** blade, click **+ Create**.
 
-1. On the **Basics** tab of the **Web App** blade, specify the following settings (leave others with their default values):
+1. On the **Basics** tab of the **Create Web App** blade, specify the following settings (leave others with their default values):
 
     | Setting | Value |
     | --- | ---|
@@ -48,8 +50,8 @@ In this task, you will create an Azure web app.
     | Resource group | the name of a new resource group **az104-09a-rg1** |
     | Web app name | any globally unique name |
     | Publish | **Code** |
-    | Runtime stack | **PHP 7.3** |
-    | Operating system | **Windows** |
+    | Runtime stack | **PHP 8.0** |
+    | Operating system | **Linux** |
     | Region | the name of an Azure region where you can provision Azure web apps |
     | App service plan | accept the default configuration |
 
@@ -65,7 +67,7 @@ In this task, you will create a staging deployment slot.
 
 1. On the blade of the newly deployed web app, click the **URL** link to display the default web page in a new browser tab.
 
-1. Close the new browser tab and, back in the Azure portal, in the **Deployment** section of the web app blade, click **Deployment slots**, and click **Add a Deployment slot**.
+1. Close the new browser tab and, back in the Azure portal, in the **Deployment** section of the web app blade, click **Deployment slots**.
 
     >**Note**: The web app, at this point, has a single deployment slot labeled **PRODUCTION**.
 
@@ -102,8 +104,6 @@ In this task, you will configure web app deployment settings.
     | --- | ---|
     | User name | any globally unique name (must not contain `@` character) |
     | Password | any password that satisfies complexity requirements|
-
-    >**Note:** The password must be at least eight characters long, with two of the following three elements: letters, numbers, and non-alphanumeric characters.
 
     >**Note:** You will need these credentials in the next task of this lab.
 
@@ -175,25 +175,25 @@ In this task, you will configure and test autoscaling of Azure web app.
 
     >**Note**: You also have the option of scaling the web app manually.
 
-1. Leave the default option **Scale based on a metric** selected and click **+ Add a rule**
+1. Select **Scale based on a metric** and click **+ Add a rule**
 
 1. On the **Scale rule** blade, specify the following settings (leave others with their default values):
 
     | Setting | Value |
     | --- |--- |
     | Metric source | **Current resource** |
-    | Time aggregation | **Maximum** |
-    | Metric namespace | **App Service plans standard metrics** |
+    | Metric namespace | **standard metrics** |
     | Metric name | **CPU Percentage** |
     | Operator | **Greater than** |
     | Metric threshold to trigger scale action | **10** |
     | Duration (in minutes) | **1** |
     | Time grain statistic | **Maximum** |
+    | Time aggregation | **Maximum** |
     | Operation | **Increase count by** |
     | Instance count | **1** |
     | Cool down (minutes) | **5** |
 
-    >**Note**: Obviously these values do not represent a realistic configuration, since their purpose is to trigger autoscaling as soon as possible, without extended wait period.
+    >**Note**: These values do not represent a realistic configuration, since their purpose is to trigger autoscaling as soon as possible, without extended wait period.
 
 1. Click **Add** and, back on the App Service plan scaling blade, specify the following settings (leave others with their default values):
 
@@ -225,11 +225,11 @@ In this task, you will configure and test autoscaling of Azure web app.
    while ($true) { Invoke-WebRequest -Uri $webapp.DefaultHostName }
    ```
 
-1. Minimize the Cloud Shell pane (but do not close it) and, on the web app blade, in the **Monitoring** section, click **Process explorer**.
+1. Minimize the Cloud Shell pane (but do not close it) and, on the web app blade, in the Settings section, click **Scale out (App Service plan)**.
 
-    >**Note**: Process explorer facilitates monitoring the number of instances and their resource utilization.
+1. Select the **Run history** tab, and check the **Observed resource instance count**.
 
-1. Monitor the utilization and the number of instances for a few minutes.
+1. Monitor the utilization and the number of instances for a few minutes. 
 
     >**Note**: You may need to **Refresh** the page.
 
@@ -239,7 +239,9 @@ In this task, you will configure and test autoscaling of Azure web app.
 
 #### Clean up resources
 
-   >**Note**: Remember to remove any newly created Azure resources that you no longer use. Removing unused resources ensures you will not see unexpected charges.
+>**Note**: Remember to remove any newly created Azure resources that you no longer use. Removing unused resources ensures you will not see unexpected charges.
+
+>**Note**:  Don't worry if the lab resources cannot be immediately removed. Sometimes resources have dependencies and take a long time to delete. It is a common Administrator task to monitor resource usage, so just periodically review your resources in the Portal to see how the cleanup is going. 
 
 1. In the Azure portal, open the **PowerShell** session within the **Cloud Shell** pane.
 

@@ -1,7 +1,7 @@
 ---
 lab:
     title: '02b - Manage Governance via Azure Policy'
-    module: 'Module 02 - Governance and Compliance'
+    module: 'Administer Governance and Compliance'
 ---
 
 # Lab 02b - Manage Governance via Azure Policy
@@ -15,7 +15,9 @@ In order to improve management of Azure resources in Contoso, you have been task
 
 - ensuring that only properly tagged infrastructure resources can be added to infrastructure resource groups
 
-- remediating any non-compliant resources 
+- remediating any non-compliant resources
+
+**Note:** An **[interactive lab simulation](https://mslabs.cloudguides.com/guides/AZ-104%20Exam%20Guide%20-%20Microsoft%20Azure%20Administrator%20Exercise%203)** is available that allows you to click through this lab at your own pace. You may find slight differences between the interactive simulation and the hosted lab, but the core concepts and ideas being demonstrated are the same. 
 
 ## Objectives
 
@@ -61,7 +63,7 @@ In this task, you will create and assign a tag to an Azure resource group via th
 
     **Note**: note what resource group the storage account is in, you'll need it later in the lab.
 
-1. On the resource group blade, click **Tags**.
+1. On the resource group blade, click Click **edit** next to **Tags** to create new tags.
 
 1. Create a tag with the following settings and Apply your change:
 
@@ -134,7 +136,7 @@ In this task, you will assign the built-in *Require a tag and its value on resou
 
     >**Note**: Verify whether the error message states that the resource deployment was disallowed by the policy. 
 
-    >**Note**: By clicking the **Tags** tab, you can find more details about the error, including the name of the role definition **Require Role tag with Infra value**. The deployment failed because the storage account you attempted to create did not have a tag named **Role** with its value set to **Infra**.
+    >**Note**: By clicking the **Raw Error** tab, you can find more details about the error, including the name of the role definition **Require Role tag with Infra value**. The deployment failed because the storage account you attempted to create did not have a tag named **Role** with its value set to **Infra**.
 
 #### Task 3: Apply tagging via an Azure policy
 
@@ -144,7 +146,7 @@ In this task, we will use a different policy definition to remediate any non-com
 
 1. In the **Authoring** section, click **Assignments**. 
 
-1. In the list of assignments, right click the ellipsis icon in the row representing the **Require Role tag with Infra value** policy assignment and use the **Delete assignment** menu item to delete the assignment. 
+1. In the list of assignments, click the ellipsis icon in the row representing the **Require Role tag with Infra value** policy assignment and use the **Delete assignment** menu item to delete the assignment.
 
 1. Click **Assign policy** and specify the **Scope** by clicking the ellipsis button and selecting the following values:
 
@@ -200,9 +202,9 @@ In this task, we will use a different policy definition to remediate any non-com
 
 #### Task 4: Clean up resources
 
-   >**Note**: Remember to remove any newly created Azure resources that you no longer use. 
-
-   >**Note**: Removing unused resources ensures you will not see unexpected charges, although keep in mind that Azure policies do not incur extra cost.
+   >**Note**: Remember to remove any newly created Azure resources that you no longer use. Removing unused resources ensures you will not see unexpected charges, although keep in mind that Azure policies do not incur extra cost.
+   
+   >**Note**:  Don't worry if the lab resources cannot be immediately removed. Sometimes resources have dependencies and take a longer time to delete. It is a common Administrator task to monitor resource usage, so just periodically review your resources in the Portal to see how the cleanup is going. 
 
 1. In the portal, search for and select **Policy**.
 
@@ -212,7 +214,7 @@ In this task, we will use a different policy definition to remediate any non-com
 
 1. In the list of storage accounts, select the resource group corresponding to the storage account you created in the last task of this lab. Select **Tags** and click **Delete** (Trash can to the right) to the **Role:Infra** tag and press **Apply**. 
 
-1. Click **Delete**, when prompted for the confirmation, in the **Delete storage account** blade, type the name of the storage account to confirm and click **Delete**. 
+1. Click **Overview** and click **Delete** on the top of the storage account blade. When prompted for the confirmation, in the **Delete storage account** blade, type the name of the storage account to confirm and click **Delete**. 
 
 #### Review
 

@@ -1,13 +1,13 @@
 ---
 lab:
     title: '02a - Manage Subscriptions and RBAC'
-    module: 'Module 02 - Governance and Compliance'
+    module: 'Administer Governance and Compliance'
 ---
 
 # Lab 02a - Manage Subscriptions and RBAC
 # Student lab manual
 
-## Lab requirements:
+## Lab requirements
 
 This lab requires permissions to create Azure Active Directory (Azure AD) users, create custom Azure Role Based Access Control (RBAC) roles, and assign these roles to Azure AD users. Not all lab hosters may provide this capability. Ask your instructor for the availability of this lab.
 
@@ -20,7 +20,9 @@ In order to improve management of Azure resources in Contoso, you have been task
 - granting permissions to submit support requests for all subscriptions in the management group to a designated Azure Active Directory user. That user's permissions should be limited only to: 
 
     - creating support request tickets
-    - viewing resource groups 
+    - viewing resource groups
+
+**Note:** An **[interactive lab simulation](https://mslabs.cloudguides.com/guides/AZ-104%20Exam%20Guide%20-%20Microsoft%20Azure%20Administrator%20Exercise%202)** is available that allows you to click through this lab at your own pace. You may find slight differences between the interactive simulation and the hosted lab, but the core concepts and ideas being demonstrated are the same.
 
 ## Objectives
 
@@ -46,7 +48,7 @@ In this lab, you will:
 
 In this task, you will create and configure management groups. 
 
-1. Sign in to the [Azure portal](https://portal.azure.com).
+1. Sign in to the [**Azure portal**](http://portal.azure.com).
 
 1. Search for and select **Management groups** to navigate to the **Management groups** blade.
 
@@ -135,13 +137,17 @@ In this task, you will create an Azure Active Directory user, assign the RBAC ro
     | User name | **az104-02-aaduser1**|
     | Name | **az104-02-aaduser1**|
     | Let me create the password | enabled |
-    | Initial password | **Pa55w.rd1234** |
+    | Initial password | **Provide a secure password** |
 
     >**Note**: **Copy to clipboard** the full **User name**. You will need it later in this lab.
 
 1. In the Azure portal, navigate back to the **az104-02-mg1** management group and display its **details**.
 
-1. Click **Access control (IAM)**, click **+ Add** followed by **Role assignment**, and assign the **Support Request Contributor (Custom)** role to the newly created user account.
+1. Click **Access Control (IAM)**, click **+ Add** and then **Add role assignment**. On the **Role** tab, search for **Support Request Contributor (Custom)**. 
+
+    >**Note**: if your custom role is not visible, it can take up to 10 minutes for the custom role to appear after creation.
+
+1. Select the **Role** and click **Next**. On the **Members** tab, click **+ Select members** and **select** user account az104-***********************.**********.onmicrosoft.com. Click **Next** and then **Review and assign**.
 
 1. Open an **InPrivate** browser window and sign in to the [Azure portal](https://portal.azure.com) using the newly created user account. When prompted to update the password, change the password for the user.
 
@@ -161,11 +167,11 @@ In this task, you will create an Azure Active Directory user, assign the RBAC ro
 
 1. Do not continue with creating the support request. Instead, sign out as the az104-02-aaduser1 user from the Azure portal and close the InPrivate browser window.
 
-#### Clean up resources
+#### Task 4: Clean up resources
 
-   >**Note**: Remember to remove any newly created Azure resources that you no longer use. 
+   >**Note**: Remember to remove any newly created Azure resources that you no longer use. Removing unused resources ensures you will not see unexpected charges, although, resources created in this lab do not incur extra cost.
 
-   >**Note**: Removing unused resources ensures you will not see unexpected charges, although, resources created in this lab do not incur extra cost.
+   >**Note**: Don't worry if the lab resources cannot be immediately removed. Sometimes resources have dependencies and take a longer time to delete. It is a common Administrator task to monitor resource usage, so just periodically review your resources in the Portal to see how the cleanup is going.
 
 1. In the Azure portal, search for and select **Azure Active Directory**, on the Azure Active Directory blade, click **Users**.
 
@@ -178,9 +184,10 @@ In this task, you will create an Azure Active Directory user, assign the RBAC ro
 1. From the Cloud Shell pane, run the following to remove the assignment of the custom role definition (replace the `[object_ID]` placeholder with the value of the **object ID** attribute of the **az104-02-aaduser1** Azure Active Directory user account you copied earlier in this task):
 
    ```powershell
-   $scope = (Get-AzRoleAssignment -RoleDefinitionName 'Support Request Contributor (Custom)').Scope
-
-   Remove-AzRoleAssignment -ObjectId '[object_ID]' -RoleDefinitionName 'Support Request Contributor (Custom)' -Scope $scope
+   
+    $scope = (Get-AzRoleDefinition -Name 'Support Request Contributor (Custom)').AssignableScopes | Where-Object {$_ -like 'managementgroup'}
+    
+    Remove-AzRoleAssignment -ObjectId '[object_ID]' -RoleDefinitionName 'Support Request Contributor (Custom)' -Scope $scope
    ```
 
 1. From the Cloud Shell pane, run the following to remove the custom role definition:
@@ -199,7 +206,8 @@ In this task, you will create an Azure Active Directory user, assign the RBAC ro
    
 1. Select **Refresh** to verify that the subscription has successfully moved to the **Tenant Root management group**.
 
-1. Navigate back to the **Management groups** blade, right click the **ellipsis** icon to the right of the **az104-02-mg1** management group and click **Delete**.
+1. Navigate back to the **Management groups** blade, click the **ellipsis** icon to the right of the **az104-02-mg1** management group and click **Delete**.
+  >**Note**: If you are unable to delete the **Tenant Root management group**, chances are that the **Azure Subscription** is under the management group. You need to move **Azure Subscription** out of the **Tenant Root management group** and then delete the group.
 
 #### Review
 

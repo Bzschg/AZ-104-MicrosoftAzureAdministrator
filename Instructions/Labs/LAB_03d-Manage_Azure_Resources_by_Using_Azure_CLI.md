@@ -1,7 +1,7 @@
 ---
 lab:
     title: '03d - Manage Azure resources by Using Azure CLI'
-    module: 'Module 03 - Azure Administration'
+    module: 'Administer Azure Resources'
 ---
 
 # Lab 03d - Manage Azure resources by Using Azure CLI
@@ -10,6 +10,8 @@ lab:
 ## Lab scenario
 
 Now that you explored the basic Azure administration capabilities associated with provisioning resources and organizing them based on resource groups by using the Azure portal, Azure Resource Manager templates, and Azure PowerShell, you need to carry out the equivalent task by using Azure CLI. To avoid installing Azure CLI, you will leverage Bash environment available in Azure Cloud Shell.
+
+**Note:** An **[interactive lab simulation](https://mslabs.cloudguides.com/guides/AZ-104%20Exam%20Guide%20-%20Microsoft%20Azure%20Administrator%20Exercise%207)** is available that allows you to click through this lab at your own pace. You may find slight differences between the interactive simulation and the hosted lab, but the core concepts and ideas being demonstrated are the same. 
 
 ## Objectives
 
@@ -20,6 +22,10 @@ In this lab, you will:
 + Task 3: Configure the managed disk by using Azure CLI
 
 ## Estimated timing: 20 minutes
+
+## Architecture diagram
+
+![image](../media/lab03d.png)
 
 ## Instructions
 
@@ -106,7 +112,9 @@ In this task, you will managing configuration of the Azure managed disk by using
 
 #### Clean up resources
 
-   >**Note**: Remember to remove any newly created Azure resources that you no longer use. Removing unused resources ensures you will not see unexpected charges.
+ > **Note**: Remember to remove any newly created Azure resources that you no longer use. Removing unused resources ensures you will not see unexpected charges.
+
+ > **Note**:  Don't worry if the lab resources cannot be immediately removed. Sometimes resources have dependencies and take a long time to delete. It is a common Administrator task to monitor resource usage, so just periodically review your resources in the Portal to see how the cleanup is going. 
 
 1. In the Azure portal, open the **Bash** shell session within the **Cloud Shell** pane.
 

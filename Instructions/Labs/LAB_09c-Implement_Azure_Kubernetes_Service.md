@@ -1,7 +1,7 @@
 ---
 lab:
     title: '09c - Implement Azure Kubernetes Service'
-    module: 'Module 09 - Serverless Computing'
+    module: 'Administer Serverless Computing'
 ---
 
 # Lab 09c - Implement Azure Kubernetes Service
@@ -10,6 +10,8 @@ lab:
 ## Lab scenario
 
 Contoso has a number of multi-tier applications that are not suitable to run by using Azure Container Instances. In order to determine whether they can be run as containerized workloads, you want to evaluate using Kubernetes as the container orchestrator. To further minimize management overhead, you want to test Azure Kubernetes Service, including its simplified deployment experience and scaling capabilities.
+
+**Note:** An **[interactive lab simulation](https://mslabs.cloudguides.com/guides/AZ-104%20Exam%20Guide%20-%20Microsoft%20Azure%20Administrator%20Exercise%2015)** is available that allows you to click through this lab at your own pace. You may find slight differences between the interactive simulation and the hosted lab, but the core concepts and ideas being demonstrated are the same. 
 
 ## Objectives
 
@@ -64,11 +66,14 @@ In this task, you will deploy an Azure Kubernetes Services cluster by using the 
     | ---- | ---- |
     | Subscription | the name of the Azure subscription you are using in this lab |
     | Resource group | the name of a new resource group **az104-09c-rg1** |
+    | Cluster preset configuration | **Dev/Test ($)** |
     | Kubernetes cluster name | **az104-9c-aks1** |
     | Region | the name of a region where you can provision a Kubernetes cluster |
     | Availability zones | **None** (uncheck all boxes) |
     | Kubernetes version | accept the default |
+    | API server availability | accept the default |
     | Node size | accept the default |
+    | Scale method | **Manual** |
     | Node count | **1** |
 
 1. Click **Next: Node Pools >** and, on the **Node Pools** tab of the **Create Kubernetes cluster** blade, specify the following settings (leave others with their default values):
@@ -76,23 +81,22 @@ In this task, you will deploy an Azure Kubernetes Services cluster by using the 
     | Setting | Value |
     | ---- | ---- |
     | Enable virtual nodes | **Disabled** (default) |
-    | Enable virtual machine scale sets | **Enabled** (default) |
 
-1. Click **Next: Authentication >** and, on the **Authentication** tab of the **Create Kubernetes cluster** blade, specify the following settings (leave others with their default values):
+1. Click **Next: Access >** and, on the **Access** tab of the **Create Kubernetes cluster** blade, leave settings with their default values:
 
     | Setting | Value |
     | ---- | ---- |
-    | Authentication method | **System-assigned managed identity** (default) | 
-    | Role-based access control (RBAC) | **Enabled** |
+    | Resource identity | **System-assigned managed identity** |
+    | Authentication method | **Local accounts with Kubernetes RBAC** |
 
 1. Click **Next: Networking >** and, on the **Networking** tab of the **Create Kubernetes cluster** blade, specify the following settings (leave others with their default values):
 
     | Setting | Value |
     | ---- | ---- |
     | Network configuration | **kubenet** |
-    | DNS name prefix | any valid, globally unique DNS host name |
+    | DNS name prefix | any valid, globally unique DNS prefix|
 
-1. Click **Next: Integrations >**, on the **Integrations** tab of the **Create Kubernetes cluster** blade, set **Container monitoring** to **Disabled**, click **Review + create**, ensure that the validation passed and click Create.
+1. Click **Next: Integrations >**, on the **Integrations** tab of the **Create Kubernetes cluster** blade, set **Container monitoring** to **Disabled**, click **Review + create**, ensure that the validation passed and click **Create**.
 
     >**Note**: In production scenarios, you would want to enable monitoring. Monitoring is disabled in this case since it is not covered in the lab.
 
@@ -173,11 +177,6 @@ In this task, you will scale horizontally the number of pods and then number of 
 1. From the **Cloud Shell** pane, and run the following to scale the deployment by increasing of the number of pods to 2:
 
     ```sh
-
-    RESOURCE_GROUP='az104-09c-rg1'
-
-    AKS_CLUSTER='az104-9c-aks1'
-
     kubectl scale --replicas=2 deployment/nginx-deployment
     ```
 
@@ -192,6 +191,10 @@ In this task, you will scale horizontally the number of pods and then number of 
 1. From the **Cloud Shell** pane, run the following to scale out the cluster by increasing the number of nodes to 2:
 
     ```sh
+    RESOURCE_GROUP='az104-09c-rg1'
+
+    AKS_CLUSTER='az104-9c-aks1'
+
     az aks scale --resource-group $RESOURCE_GROUP --name $AKS_CLUSTER --node-count 2
     ```
 
@@ -237,7 +240,9 @@ In this task, you will scale horizontally the number of pods and then number of 
 
 #### Clean up resources
 
-   >**Note**: Remember to remove any newly created Azure resources that you no longer use. Removing unused resources ensures you will not see unexpected charges.
+>**Note**: Remember to remove any newly created Azure resources that you no longer use. Removing unused resources ensures you will not see unexpected charges.
+
+>**Note**:  Don't worry if the lab resources cannot be immediately removed. Sometimes resources have dependencies and take a long time to delete. It is a common Administrator task to monitor resource usage, so just periodically review your resources in the Portal to see how the cleanup is going. 
 
 1. In the Azure portal, open the **Bash** shell session within the **Cloud Shell** pane.
 
